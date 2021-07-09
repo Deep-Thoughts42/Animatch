@@ -3,18 +3,20 @@ from flask import Flask
 from flask_restful import Resource, Api
 import json
 
-data = json.
-
 app = Flask(__name__)
 api = Api(app)
 
 class GenerateQuestion(Resource):
     def get(self):
+        '''Generates a question'''
         return {
-            "image_file": "image_file",
             "options": ["char_1", "char_2", "char_3", "char_4"],
-            "answer": 0
+            "image_paths": 
+            "answer": "char_1"
         }
+
+    def post(self):
+
 
 api.add_resource(GenerateQuestion, "/")
 
