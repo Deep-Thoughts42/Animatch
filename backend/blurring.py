@@ -1,28 +1,69 @@
 # %%
 import cv2
+from matplotlib import image
 import numpy as np
+from PIL import ImageEnhance
+from PIL import Image
+from numpy.core.fromnumeric import size
+from helper.converter import cv2_to_pil, pil_to_cv2
+import os
 
 
 
-size_list = [(8, 8), (16, 16), (32, 32), (64, 64), (128, 128)]
+# This function assumes cwd is root
+cur_dir = os.getcwd()
+
+dir_path = os.path.join('scripts', 'characters')
+
+def image_process(image_path):
+    # Also serves as character name
+    output_folder_name = image_path.split('/')[-1].split('.')[0]
+    output_folder_path = os.path.join(cur_dir, "ProcessedFiles", output_folder_name)
+    if not os.path.isdir(output_folder_path):
+        os.mkdir(output_folder_path)
+    
+    size_list = [(16, 16), (18, 18), (25, 25), (40, 40), (65, 65)]
+    saturation_list = [0.1, 0.2, 0.4, 0.8, 1]
+    # file path to the image
+    img = cv2.imread(image_path)
+    height, width = img.shape[:2]
+
+    for level in range(5):
+        output_path = os.path.join(cur_dir, "ProcessedFiles", output_folder_name, f"Level{level}.jpg")
+        temp_resize = cv2.resize(img, size_list[level], interpolation=cv2.INTER_LINEAR)
+        output = cv2.resize(temp_resize, (width, height), interpolation=cv2.INTER_NEAREST)
+        pil_image = cv2_to_pil(output)
+        converted = ImageEnhance.Color(pil_image)
+        final_img = converted.enhance(saturation_list[level])
+        final_img.save(output_path)
+        pass
+    cv2.imwrite(os.path.join(cur_dir, "ProcessedFiles", output_folder_name, f"Level5.jpg"), img)
+
+    # pil_image = cv2_to_pil(img)
+
+    # converted = ImageEnhance.Color(pil_image)
+
+    # desaturate = converted.enhance(0.1)
+    # desaturate.save('test.jpg')
+
+    # height, width = img.shape[:2]
+
+    # w, h = (16, 16)
+
+    # temp = cv2.resize(img, (w, h), interpolation=cv2.INTER_LINEAR)
+
+    # output = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
+
+    # cv2.imshow('Input', img)
+    # cv2.imshow('Output', output)
+
+    # cv2.waitKey(0)
 
 
-# file path to the image
-img = cv2.imread('data/img/naruto.jpg')
+file_list = os.listdir(dir_path)
 
-height, width = img.shape[:2]
-
-w, h = (16, 16)
-
-temp = cv2.resize(img, (w, h), interpolation=cv2.INTER_LINEAR)
-
-output = cv2.resize(temp, (width, height), interpolation=cv2.INTER_NEAREST)
-
-cv2.imshow('Input', img)
-cv2.imshow('Output', output)
-
-cv2.waitKey(0)
-
+for image in file_list:
+    image_process(os.path.join(dir_path, image))
 
 
 # # name of frame and then the img requested
@@ -50,3 +91,4 @@ cv2.waitKey(0)
 # # if any key is pressed, exit out of the program
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
+# %%
