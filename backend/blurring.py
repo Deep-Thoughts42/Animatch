@@ -60,10 +60,8 @@ def image_process(image_path):
     # cv2.waitKey(0)
 
 
-file_list = os.listdir(dir_path)
-
-for image in file_list:
-    image_process(os.path.join(dir_path, image))
+image_path = 'scripts/characters/Finn Pepperidge.jpg'
+image_process(image_path)
 
 
 # # name of frame and then the img requested
