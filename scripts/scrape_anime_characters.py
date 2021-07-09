@@ -38,6 +38,7 @@ def scrape_character(url: str):
     urlretrieve(img_link, output_filename)
 
 def main():
+    # For more characters, make this value greater
     pages_needed = 4
 
     links = []
