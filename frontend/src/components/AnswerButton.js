@@ -43,10 +43,6 @@ function AnswerButton(props) {
     
 
 
-
-
-
-
     return (
         <div className="mb-3 d-flex justify-content-center">
             <Button onClick={handleClick} className={smallScreen ? "button-override-small d-flex justify-self-center justify-content-center" : "button-override d-flex align-items-center justify-content-center justify-self-center"}><h3 style={{ "margin": 0 }}>{props.name}</h3></Button>
