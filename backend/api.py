@@ -1,3 +1,4 @@
+from utils import *
 import random
 from flask import Flask
 from flask_restful import Resource, Api
@@ -13,8 +14,10 @@ class GenerateQuestion(Resource):
     def get(self):
         options = [random.choice(self.data_sheet) for x in range(4)]
         answer = random.choice(options)
+        image_strings = create_base64_strings(answer)
 
         output_json = {
+            "image_strings": image_strings,
             "options": options,
             "answer": answer
         }
