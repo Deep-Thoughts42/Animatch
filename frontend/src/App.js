@@ -36,11 +36,22 @@ function App() {
 
 
   return (
-    <div>
+    <div className="">
       <SmallScreenContext.Provider value={smallScreen}>
-        <Container fluid='lg' className="c-w change-font mt-5">
-          <h2>Test</h2>
-          <Button>Test</Button>
+        <Container fluid='lg' className="c-w change-font mt-5 ">
+          <Row className="text-center">
+            <h1>Welcome to <span className="fw-700 text-blue">Who's that Waifu!</span></h1>
+            <h3>Your goal is to correctly identify as many characters as possible. Good Luck!</h3>
+          </Row>
+          <Row className=" mt-5">
+            <Col className="text-center  align-items-center d-flex flex-column align-items-center">
+              <h2 >Image will go here</h2>
+              <h4>Score: <span className="text-blue fw-700">0{}</span></h4>
+            
+            </Col>
+            <Col>
+            </Col>
+          </Row>
 
         </Container>
 
