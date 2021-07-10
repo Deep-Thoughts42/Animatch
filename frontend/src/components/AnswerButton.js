@@ -55,9 +55,6 @@ function AnswerButton(props) {
 
     )
 
-
-
-
 }
 
 export default AnswerButton;
