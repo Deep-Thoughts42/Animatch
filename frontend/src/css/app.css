@@ -55,6 +55,21 @@ body {
 
 }
 
+.restart-button {
+  background-color: #660d53 !important;
+  /* width: 30rem !important; */
+  border-color: #660d53 !important;
+  transition: 0.4s;
+}
+
+.restart-button-small {
+  background-color: #660d53 !important;
+  /* width: 15rem !important; */
+  border-color: #660d53 !important;
+  transition: 0.4s;
+}
+
+
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
   
   background-color: #bb3d3d !important;
