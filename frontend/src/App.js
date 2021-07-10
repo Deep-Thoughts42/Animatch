@@ -120,7 +120,7 @@ function App() {
           <SmallScreenContext.Provider value={smallScreen}>
             <Container fluid='lg' className="c-w change-font mt-5 mb-5">
               <Row className="text-center">
-                <h1>Welcome to <span className="fw-700 text-blue">Who's that Character!</span></h1>
+                <h1>Welcome to <span className="fw-700 text-blue">AniMatch</span></h1>
                 <h3>Your goal is to correctly identify as many characters as possible. Good Luck!</h3>
               </Row>
 
