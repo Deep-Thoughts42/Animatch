@@ -1,4 +1,4 @@
-from random import choice
+import random
 from flask import Flask
 from flask_restful import Resource, Api
 import json
@@ -7,16 +7,19 @@ app = Flask(__name__)
 api = Api(app)
 
 class GenerateQuestion(Resource):
+    def __init__(self):
+        self.data_sheet = json.load(open("character_sheet.json"))
+
     def get(self):
-        '''Generates a question'''
-        return {
-            "options": ["char_1", "char_2", "char_3", "char_4"],
-            "image_paths": 
-            "answer": "char_1"
+        options = [random.choice(self.data_sheet) for x in range(4)]
+        answer = random.choice(options)
+
+        output_json = {
+            "options": options,
+            "answer": answer
         }
 
-    def post(self):
-
+        return output_json
 
 api.add_resource(GenerateQuestion, "/")
 
