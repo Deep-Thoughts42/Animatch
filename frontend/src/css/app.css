@@ -7,3 +7,23 @@ body {
 }
 
 
+
+
+
+
+/* Font and Text Features */
+
+.fs-1p2 {
+  font-size: 1.2rem;
+}
+
+.fw-700{
+  font-weight: 700;
+}
+.fw-600 {
+  font-weight: 600;
+}
+
+.text-blue {
+  color: #5bafe7
+}
