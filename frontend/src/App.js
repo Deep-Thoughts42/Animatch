@@ -3,6 +3,7 @@ import './css/app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container, Row, Col, Image, ProgressBar } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+
 // Component Imports
 import SmallScreenContext from './components/SmallScreenContext';
 import ScoreContext from './components/ScoreContext';
@@ -48,9 +49,6 @@ function App() {
 
   let [userLogMessage, setUserLogMessage] = useState("");
 
-
-
-
   const [imageIdx, setImageIdx] = useState(0)
   const [timerBar, setTimerBar] = useState(100)
 
@@ -62,12 +60,13 @@ function App() {
       let progress_bar = timerBar
       progress_bar = ((time_left)/12)*100
       time_left = time_left-0.1
-      setTimerBar(progress_bar)
+      setTimerBar(2)
       console.log(progress_bar)
 
     }, 100)
   }
 
+  // Completed
   function handleTimer() {
     let idx = 0;
 
@@ -114,9 +113,6 @@ function App() {
     }, 5000)
   }
 
-
-
-
   return (
     <div className="">
       <MiscContext.Provider value={[imageIdx, setImageIdx, handleRequest, userLogMessage, setUserLogMessage, scoreEarned, setScoreEarned]}>
@@ -132,7 +128,7 @@ function App() {
                 <Col lg="6" className="text-center d-flex flex-column align-items-center">
                   <h4 className="mb-3">Who is this character?</h4>
                   <Image rounded src={`data:image/jpg;base64,${imageStrings[imageIdx]}`} className={smallScreen ? "mb-4 dims-small" : "mb-4 dims-rel"} />
-                  
+
 
 
                 </Col>
@@ -144,7 +140,7 @@ function App() {
                     <AnswerButton name={options[2]} correct={answer} />
                     <AnswerButton name={options[3]} correct={answer} />
                     <Button onClick={handleRestart} className={smallScreen ? "mt-3 restart-button-small w-100" : "mt-3 restart-button w-100"}><h3 style={{ "margin": 0 }}>Restart</h3></Button>
-                    <ProgressBar className="mt-5 mb-3" now={30.9999} />
+                    <ProgressBar className="mt-5 mb-3" now={scoreEarned} />
                     <h4>You will currently earn <span className="text-blue fw-700">{scoreEarned}</span> points!</h4>
                   <h4>Score: <span className="text-blue fw-700">{score}</span></h4>
 
