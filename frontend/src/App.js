@@ -3,7 +3,6 @@ import './css/app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container, Row, Col, Image, ProgressBar } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-
 // Component Imports
 import SmallScreenContext from './components/SmallScreenContext';
 import ScoreContext from './components/ScoreContext';
@@ -43,44 +42,64 @@ function App() {
   const [answer, setAnswer] = useState("")
 
   let [score, setScore] = useState(0);
-  let scoreArray = [10, 7, 5, 3, 2, 1]
-  let [scoreEarned, setScoreEarned] = useState(10)
+  let [scoreEarned, setScoreEarned] = useState(100)
 
 
   let [userLogMessage, setUserLogMessage] = useState("");
 
+
+
+
   const [imageIdx, setImageIdx] = useState(0)
-  const [timerBar, setTimerBar] = useState(100)
+
+  const [answered, setAnswered] = useState(false)
+  const [timeoutVal, setTimeoutVal] = useState(12000)
 
 
   function timerEvent() {
 
-    setInterval(() => {
-      let time_left = 12
-      let progress_bar = timerBar
-      progress_bar = ((time_left)/12)*100
-      time_left = time_left-0.1
-      setTimerBar(2)
-      console.log(progress_bar)
-
-    }, 100)
-  }
-
-  // Completed
-  function handleTimer() {
+    let time_left = 12
     let idx = 0;
+    let time = 0;
 
-    let changeInterval = setInterval(() => {
-      setImageIdx(idx)
-      setScoreEarned(scoreArray[idx])
-      idx++;
+    setScoreEarned(100)
 
-      if (idx > 5) {
-        clearInterval(changeInterval)
+    let timerInterval = setInterval(() => {
+
+      if (answered === true) {
+        clearInterval(timerInterval)
+        return;
+
       }
 
-    }, 2000)
+      if ((time % 2000 === 0) && (idx < 6)) {
+        setImageIdx(idx);
+        idx++;
+      }
+      time = time + 100;
+      setTimeoutVal(13000-time);
 
+      let progress_bar = scoreEarned;
+      progress_bar = Math.round(((time_left) / 12) * 100);
+      time_left = time_left - 0.1;
+      if (time_left <= 0) {
+        progress_bar = 0
+        clearInterval(timerInterval)
+        return;
+      }
+
+
+
+
+      setScoreEarned(progress_bar);
+      // console.log(progress_bar)
+
+
+
+
+
+
+    }, 100)
   }
 
   function handleRequest() {
@@ -89,12 +108,20 @@ function App() {
       url: 'https://vedaantv.pythonanywhere.com/generate',
     })
       .then((res) => {
+
+        // setTimerBar(100)
+        // setScoreEarned(100)
+
         // console.log(res.data);
         setImageIdx(0)
+        // handleTimer()
+        timerEvent()
+        setAnswered(false)
         setImageStrings(res.data.image_strings)
         setAnswer(res.data.answer)
         setOptions(res.data.options)
-        // timerEvent()
+
+
       })
       .catch((err) => {
 
@@ -105,17 +132,23 @@ function App() {
 
   function handleRestart() {
     setScore(0)
-    setScoreEarned(10)
-    handleRequest()
-    setUserLogMessage("The application is now restarting.")
+    // setScoreEarned(100)
+
+    setUserLogMessage("The application is now restarting. Please wait...")
+
     setTimeout(() => {
-      setUserLogMessage("")
-    }, 5000)
+      setUserLogMessage("Application Restarted")
+      handleRequest()
+    }, timeoutVal)
+    
   }
+
+
+
 
   return (
     <div className="">
-      <MiscContext.Provider value={[imageIdx, setImageIdx, handleRequest, userLogMessage, setUserLogMessage, scoreEarned, setScoreEarned]}>
+      <MiscContext.Provider value={[imageIdx, setImageIdx, handleRequest, userLogMessage, setUserLogMessage, scoreEarned, setScoreEarned, answered, setAnswered, timeoutVal]}>
         <ScoreContext.Provider value={[score, setScore]}>
           <SmallScreenContext.Provider value={smallScreen}>
             <Container fluid='lg' className="c-w change-font mt-5 mb-5">
@@ -141,10 +174,14 @@ function App() {
                     <AnswerButton name={options[3]} correct={answer} />
                     <Button onClick={handleRestart} className={smallScreen ? "mt-3 restart-button-small w-100" : "mt-3 restart-button w-100"}><h3 style={{ "margin": 0 }}>Restart</h3></Button>
                     <ProgressBar className="mt-5 mb-3" now={scoreEarned} />
-                    <h4>You will currently earn <span className="text-blue fw-700">{scoreEarned}</span> points!</h4>
-                  <h4>Score: <span className="text-blue fw-700">{score}</span></h4>
+                    {!answered &&
+                      <h4>You will currently earn <span className="text-blue fw-700">{scoreEarned}</span> points!</h4>}
+                    {answered &&
+                      <h4>Please wait a few moments for the next option to show up!</h4>
+                    }
+                    <h4>Score: <span className="text-blue fw-700">{score}</span></h4>
 
-                  <Button onClick={handleTimer}>Test Timer</Button>
+                    {/* <Button onClick={handleTimer}>Test Timer</Button> */}
 
 
                   </div>

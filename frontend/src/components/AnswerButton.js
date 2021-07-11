@@ -12,32 +12,38 @@ function AnswerButton(props) {
 
     const smallScreen = useContext(SmallScreenContext)
     const [score, setScore] = useContext(ScoreContext)
-    const [imageIdx, setImageIdx, handleRequest, userLogMessage, setUserLogMessage, scoreEarned, setScoreEarned] = useContext(MiscContext)
+    const [imageIdx, setImageIdx, handleRequest, userLogMessage, setUserLogMessage, scoreEarned, setScoreEarned, answered, setAnswered, timeoutVal] = useContext(MiscContext)
 
     function handleClick() {
-        if (props.name === props.correct) {
-            console.log("Your Answer was correct")
+        setAnswered(true)
+        if (props.name === props.correct) {  
             setScore(score + scoreEarned)
-            handleRequest()
+            
             setUserLogMessage("Your answer was correct, good job!")
-            setTimeout(() => {
-                setUserLogMessage("")
-            }, 5000)
-            setScoreEarned(10)
+            // setTimeout(() => {
+            //     setUserLogMessage("")
+            // }, 5000)
+            // setScoreEarned(100)
+
+
+            
 
         }
         else {
             console.log("Your answer was incorrect, the correct answer was " + props.correct)
             setScore(0)
-            setImageIdx(5)
-            handleRequest()
+            // setImageIdx(5)
+            
             setUserLogMessage("Your answer was incorrect, the correct answer was " + props.correct + ". The game is restarting.")
-            setTimeout(() => {
-                setUserLogMessage("")
-            }, 5000)
-            setScoreEarned(10)
+            // setTimeout(() => {
+            //     setUserLogMessage("")
+            // }, 5000)
+            // setScoreEarned(100)
+
 
         }
+        setTimeout(() => {handleRequest()}, timeoutVal)
+        
     }
 
     
